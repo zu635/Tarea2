@@ -17,8 +17,8 @@ export class ProductController{
 
     public async getById(req: Request, res: Response){
         const id = Number(req.params.id);
-        if(!Number.isInteger(id) && id>0){
-            res.status(404).json({ message: "Invalid id"});
+        if(!Number.isInteger(id) || id<=0){
+            res.status(400).json({ message: "Invalid id"});
             return;
         }
         try{
@@ -40,8 +40,8 @@ export class ProductController{
         try {
             const { name,stock, description, brand, img } = req.body;
             const price= Number(req.body.price);
-            if(Number.isNaN(price) && price<0){
-                res.status(404).json({ message: "Invalid price"});
+            if(Number.isNaN(price) || price<=0){
+                res.status(400).json({ message: "Invalid price"});
                 return;
             }
             await pool.execute(
@@ -58,14 +58,14 @@ export class ProductController{
     public async updateProduct(req: Request, res: Response) {
         try {
             const id = Number(req.params.id);
-            if(!Number.isInteger(id) && id>0){
-                    res.status(404).json({ message: "Invalid id"});
+            if(!Number.isInteger(id) || id<=0){
+                    res.status(400).json({ message: "Invalid id"});
                     return;
             }
             const { name,stock, description, brand, img } = req.body;
             const price= Number(req.body.price);
-            if(Number.isNaN(price) && price>0){
-                res.status(404).json({ message: "Invalid price"});
+            if(Number.isNaN(price) || price<=0){
+                res.status(400).json({ message: "Invalid price"});
                 return;
             }
 
@@ -87,8 +87,8 @@ export class ProductController{
     public async productDelete(req: Request, res: Response) {
         try {
             const id = Number(req.params.id);
-            if(!Number.isInteger(id) && id>0){
-                res.status(404).json({ message: "Invalid id"});
+            if(!Number.isInteger(id) || id<=0){
+                res.status(400).json({ message: "Invalid id"});
                 return;
             }
             const [result] = await pool.execute<ResultSetHeader>(
@@ -109,13 +109,13 @@ export class ProductController{
     public async changePrice(req: Request, res: Response) {
         try {
             const id = Number(req.params.id);
-            if(!Number.isInteger(id) && id>0){
-                    res.status(404).json({ message: "Invalid id"});
+            if(!Number.isInteger(id) || id<=0){
+                    res.status(400).json({ message: "Invalid id"});
                     return;
             }
             const price= Number(req.body.price);
-            if(Number.isNaN(price) && price>0){
-                res.status(404).json({ message: "Invalid price"});
+            if(Number.isNaN(price) || price<=0){
+                res.status(400).json({ message: "Invalid price"});
                 return;
             }
 
